@@ -3,6 +3,9 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import appCss from '../styles.css?url'
+import { NotFound } from '#/components/motion/error-page/NotFound'
+import { InternalServerError } from '#/components/motion/error-page/InternalServerError'
+import { Toaster } from '#/components/ui/toast'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -26,6 +29,16 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  notFoundComponent: () => (
+    <div className="flex h-screen items-center justify-center">
+      <NotFound />
+    </div>
+  ),
+  errorComponent: () => (
+    <div className="flex h-screen items-center justify-center">
+      <InternalServerError title="Service unavailable" />
+    </div>
+  ),
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -47,6 +60,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             },
           ]}
         />
+        <Toaster />
         <Scripts />
       </body>
     </html>

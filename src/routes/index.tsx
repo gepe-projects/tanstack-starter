@@ -1,5 +1,5 @@
 import { Button } from '#/components/animate-ui/components/buttons/button'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({ component: Home })
 
@@ -10,7 +10,9 @@ function Home() {
       <p className="mt-4 text-lg">
         Edit <code>src/routes/index.tsx</code> to get started.
       </p>
-      <Button>Click me</Button>
+      <Button asChild>
+        <Link to="/dashboard">Go to dashboard</Link>
+      </Button>
     </div>
   )
 }
