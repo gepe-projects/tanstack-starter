@@ -95,3 +95,39 @@ tanstackIntent:
     run: "npx @tanstack/intent@latest load @tanstack/virtual-file-routes#virtual-file-routes"
     for: "Programmatic route tree building as an alternative to filesystem conventions: rootRoute, index, route, layout, physical, defineVirtualSubtreeConfig. Use with TanStack Router plugin's virtualRouteConfig option."
 <!-- intent-skills:end -->
+
+<!-- project-conventions:start -->
+# Project conventions
+
+## Folder structure
+
+TanStack only mandates `src/routes/` (file-based routes) and the Start/Router entry
+points (`src/router.tsx`, `src/start.ts`). Everything else is a local convention:
+
+- `src/routes/` — TanStack Router file-based routes. Do not edit `routeTree.gen.ts` (auto-generated).
+- `src/features/<domain>/` — feature-scoped code, e.g. `features/auth/`:
+  - `api/` — server functions (`*.functions.ts` via `createServerFn`) that call the Spring API client.
+  - `components/` — feature-specific components (e.g. `SignInForm.tsx`).
+  - `schemas.ts` — shared zod schemas used BOTH as form validators (client) and
+    `createServerFn` `.validator()` (server). Types derived via `z.infer`.
+- `src/lib/` — non-UI, non-feature utilities:
+  - `api/` — HTTP client (`client.ts`), API endpoint wrappers (`public.ts`), error types (`errors.ts`).
+  - `hooks/` — shared hooks.
+  - `utils.ts`, `ease.ts` — small helpers.
+- `src/components/` — reusable UI:
+  - `ui/` — shadcn/base-ui primitives (Button, Input, Card, …).
+  - `form/` — form building blocks: `form.ts` (createFormHook with app fields),
+    `fields/` (TextField, PasswordField, …), `server-errors.ts` (`applyServerErrors`).
+  - `motion/`, `animate-ui/` — vendored/copied component libraries.
+- `src/server/` — server-only runtime code (e.g. `session.ts` for the app session).
+- `src/env.ts` — validated env vars (@t3-oss/env).
+
+## Conventions
+
+- Import aliases use `#/…` mapped to `src/…`.
+- Forms: `useAppForm` from `#/components/form/form`, validators share the feature's
+  zod `schemas.ts` (client + `createServerFn` `.validator()` use the same schema).
+- Server functions live in `features/<domain>/api/*.functions.ts`, never inline in routes.
+- Spring backend is the source of truth for business rules; do not duplicate them
+  in the frontend beyond the shared zod schema.
+<!-- project-conventions:end -->
