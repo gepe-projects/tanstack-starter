@@ -1,10 +1,11 @@
 import { createServerFn } from '@tanstack/react-start'
 
 import { RegisterSchema, SignInSchema } from '#/features/auth/schemas'
+import type { TokenResponse } from '#/features/auth/api/types'
 import { useAppSession } from '#/server/session'
 
 import type { ApiResult } from '#/lib/api/errors'
-import { publicApi } from '#/lib/api/public'
+import { apiFetch } from '#/lib/api/client'
 import {
   guestOnlyMiddleware,
   requireAuthMiddleware,
@@ -14,7 +15,10 @@ export const login = createServerFn({ method: 'POST' })
   .middleware([guestOnlyMiddleware])
   .validator(SignInSchema)
   .handler(async ({ data }): Promise<ApiResult<{ userId: string }>> => {
-    const result = await publicApi.login(data)
+    const result = await apiFetch<TokenResponse>('/api/v1/auth/login', {
+      method: 'POST',
+      body: data,
+    })
     if (!result.ok) return result
 
     const session = await useAppSession()
@@ -32,7 +36,10 @@ export const register = createServerFn({ method: 'POST' })
   .middleware([guestOnlyMiddleware])
   .validator(RegisterSchema)
   .handler(async ({ data }): Promise<ApiResult<{ userId: string }>> => {
-    const result = await publicApi.register(data)
+    const result = await apiFetch<TokenResponse>('/api/v1/auth/register', {
+      method: 'POST',
+      body: data,
+    })
     if (!result.ok) return result
 
     const session = await useAppSession()
@@ -52,7 +59,10 @@ export const logout = createServerFn({ method: 'POST' })
     const session = await useAppSession()
     const refreshToken = session.data.refreshToken
     if (refreshToken) {
-      await publicApi.logout(refreshToken)
+      await apiFetch<null>('/api/v1/auth/logout', {
+        method: 'POST',
+        body: { refreshToken },
+      })
     }
     await session.clear()
     return { ok: true }

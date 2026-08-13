@@ -1,8 +1,8 @@
+import type { TokenResponse } from '#/features/auth/api/types'
 import { useAppSession } from '#/server/session'
 
 import type { ApiError, ApiResult } from './errors'
 import { apiFetch } from './client'
-import { publicApi } from './public'
 
 const SESSION_EXPIRED: ApiError = {
   status: 401,
@@ -20,7 +20,10 @@ async function refreshSession(): Promise<boolean> {
   let pending = inflight.get(refreshToken)
   if (!pending) {
     pending = (async () => {
-      const res = await publicApi.refresh(refreshToken)
+      const res = await apiFetch<TokenResponse>('/api/v1/auth/refresh', {
+        method: 'POST',
+        body: { refreshToken },
+      })
       if (!res.ok) return false
 
       const next = await useAppSession()
@@ -46,7 +49,10 @@ interface AuthedRequestOptions {
 }
 
 export const authedApi = {
-  async request<T>(path: string, options: AuthedRequestOptions = {}): Promise<ApiResult<T>> {
+  async request<T>(
+    path: string,
+    options: AuthedRequestOptions = {},
+  ): Promise<ApiResult<T>> {
     const session = await useAppSession()
     const token = session.data.accessToken
     if (!token) {

@@ -111,7 +111,9 @@ points (`src/router.tsx`, `src/start.ts`). Everything else is a local convention
   - `schemas.ts` — shared zod schemas used BOTH as form validators (client) and
     `createServerFn` `.validator()` (server). Types derived via `z.infer`.
 - `src/lib/` — non-UI, non-feature utilities:
-  - `api/` — HTTP client (`client.ts`), API endpoint wrappers (`public.ts`), error types (`errors.ts`).
+  - `api/` — HTTP client (`client.ts`), authed client with token + silent refresh
+    (`authed.ts`), error types (`errors.ts`). Server functions call `apiFetch`
+    directly with the endpoint path.
   - `hooks/` — shared hooks.
   - `utils.ts`, `ease.ts` — small helpers.
 - `src/components/` — reusable UI:
