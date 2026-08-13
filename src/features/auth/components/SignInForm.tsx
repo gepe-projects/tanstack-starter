@@ -8,19 +8,33 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '#/components/ui/card'
-import { Field, FieldGroup } from '#/components/ui/field'
+import { FieldGroup } from '#/components/ui/field'
+import { Separator } from '#/components/ui/separator'
 import { toast } from '#/components/ui/toast'
 import { PasswordField } from '#/components/form/fields/password-field'
 import { TextField } from '#/components/form/fields/text-field'
 import { useAppForm } from '#/components/form/form'
 import { applyServerErrors } from '#/components/form/server-errors'
+import { useState } from 'react'
+import { getGoogleAuthUrl } from '../api/oauth.functions'
+
+function GoogleIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <path
+        fill="#4285F4"
+        d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
+      />
+    </svg>
+  )
+}
 
 const SignInForm = () => {
   const navigate = useNavigate()
+  const [googleLoading, setGoogleLoading] = useState(false)
   const form = useAppForm({
     defaultValues: {
       email: '',
@@ -48,6 +62,28 @@ const SignInForm = () => {
     },
   })
 
+  // gogole signin
+  async function handleGoogleLogin() {
+    setGoogleLoading(true)
+    try {
+      const result = await getGoogleAuthUrl()
+      if (!result.ok) {
+        toast.add({
+          title: 'Google sign-in failed',
+          description: result.error.message,
+          type: 'error',
+          timeout: 6000,
+        })
+        return
+      }
+      // Full top-level navigation ke Google. Setelah user selesai di Google,
+      // browser akan dibawa balik ke /auth/google/callback?code=...
+      window.location.assign(result.data.redirectUrl)
+    } finally {
+      setGoogleLoading(false)
+    }
+  }
+
   return (
     <Card className="w-full sm:max-w-md">
       <CardHeader>
@@ -56,7 +92,7 @@ const SignInForm = () => {
           Enter your email below to login to your account
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-5">
         <form
           id="sign-in-form"
           onSubmit={(e) => {
@@ -85,18 +121,28 @@ const SignInForm = () => {
               )}
             </form.AppField>
           </FieldGroup>
+          <Button type="submit" form="sign-in-form" className="mt-5 w-full">
+            Sign in
+          </Button>
         </form>
+        <div className="flex items-center gap-4">
+          <Separator className="flex-1" />
+          <span className="shrink-0 text-xs text-muted-foreground">
+            or continue with
+          </span>
+          <Separator className="flex-1" />
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={handleGoogleLogin}
+          disabled={googleLoading}
+        >
+          <GoogleIcon className="mr-2 h-4 w-4" />
+          {googleLoading ? 'Redirecting to Google…' : 'Login with Google'}
+        </Button>
       </CardContent>
-      <CardFooter>
-        <Field orientation="horizontal">
-          <Button type="button" variant="outline" onClick={() => form.reset()}>
-            Reset
-          </Button>
-          <Button type="submit" form="sign-in-form">
-            Submit
-          </Button>
-        </Field>
-      </CardFooter>
     </Card>
   )
 }
