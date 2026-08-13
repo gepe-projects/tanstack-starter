@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from '#/components/ui/card'
 import { FieldGroup } from '#/components/ui/field'
-import { Separator } from '#/components/ui/separator'
+import { SeparatorWithText } from '#/components/ui/separator-with-text'
 import { toast } from '#/components/ui/toast'
 import { PasswordField } from '#/components/form/fields/password-field'
 import { TextField } from '#/components/form/fields/text-field'
@@ -125,13 +125,7 @@ const SignInForm = () => {
             Sign in
           </Button>
         </form>
-        <div className="flex items-center gap-4">
-          <Separator className="flex-1" />
-          <span className="shrink-0 text-xs text-muted-foreground">
-            or continue with
-          </span>
-          <Separator className="flex-1" />
-        </div>
+        <SeparatorWithText text="or continue with" />
         <Button
           type="button"
           variant="outline"
