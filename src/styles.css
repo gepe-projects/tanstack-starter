@@ -1,23 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
-@import '@fontsource-variable/inter';
 
 @custom-variant dark (&:is(.dark *));
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body,
-#app {
-  min-height: 100%;
-}
-
-body {
-  margin: 0;
-}
 
 :root {
   --background: oklch(0.9689 0.009 314.7819);
