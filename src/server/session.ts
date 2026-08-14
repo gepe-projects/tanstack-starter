@@ -6,6 +6,7 @@ export interface AppSessionUser {
   userId: string
   email: string
   emailVerified: boolean
+  status: 'ACTIVE' | 'SUSPENDED' | 'DISABLED'
   roles: string[]
 }
 
