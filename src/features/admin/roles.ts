@@ -19,6 +19,14 @@ export function maxRank(roles: string[]): number {
   }, 0)
 }
 
+/**
+ * Apakah principal termasuk tier admin (ADMIN ke atas). SUPER_ADMIN menurunkan
+ * semua hak ADMIN — sinkron dengan RoleHierarchy backend (ROLE_SUPER_ADMIN > ROLE_ADMIN).
+ */
+export function hasAdminTier(roles: string[]): boolean {
+  return maxRank(roles) >= ROLE_RANK.ADMIN
+}
+
 export function isRoleType(role: string): role is RoleType {
   return role in ROLE_RANK
 }

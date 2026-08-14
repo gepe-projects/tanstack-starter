@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
 
 import { getSessionInfo } from '#/features/auth/api/auth.functions'
+import { hasAdminTier } from '#/features/admin/roles'
 
 export const Route = createFileRoute('/_authenticated/admin')({
   beforeLoad: async () => {
@@ -8,7 +9,7 @@ export const Route = createFileRoute('/_authenticated/admin')({
     if (!session) {
       throw redirect({ to: '/sign-in' })
     }
-    if (!session.user.roles.includes('ADMIN')) {
+    if (!hasAdminTier(session.user.roles)) {
       throw redirect({ to: '/dashboard' })
     }
     return { session }

@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 
 import { logout } from '#/features/auth/api/auth.functions'
+import { hasAdminTier } from '#/features/admin/roles'
 import { Button } from '#/components/animate-ui/components/buttons/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 
@@ -11,7 +12,7 @@ export const Route = createFileRoute('/_authenticated/dashboard/')({
 function Dashboard() {
   const { session } = Route.useRouteContext()
   const navigate = useNavigate()
-  const isAdmin = session.user.roles.includes('ADMIN')
+  const isAdmin = hasAdminTier(session.user.roles)
 
   const handleSignOut = async () => {
     await logout()

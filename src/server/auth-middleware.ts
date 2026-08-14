@@ -1,6 +1,7 @@
 import { createMiddleware } from '@tanstack/react-start'
 import { useAppSession } from './session'
 import { redirect } from '@tanstack/react-router'
+import { hasAdminTier } from '#/features/admin/roles'
 
 export const requireAuthMiddleware = createMiddleware({
   type: 'function',
@@ -25,7 +26,8 @@ export const requireAdminMiddleware = createMiddleware({
   .middleware([requireAuthMiddleware])
   .server(async ({ next, context }) => {
     const { user } = context
-    if (!user.roles.includes('ADMIN')) throw new Error('Forbidden')
+    // SUPER_ADMIN menurunkan semua hak ADMIN (sinkron RoleHierarchy backend)
+    if (!hasAdminTier(user.roles)) throw new Error('Forbidden')
     return next()
   })
 
