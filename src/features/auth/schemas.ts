@@ -6,6 +6,11 @@ export const SignInSchema = z.object({
 })
 
 export const RegisterSchema = z.object({
+  displayName: z
+    .string()
+    .trim()
+    .max(120, 'Name must be at most 120 characters')
+    .optional(),
   email: z.email('Enter a valid email'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 })
