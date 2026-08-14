@@ -19,6 +19,16 @@ export const requireAuthMiddleware = createMiddleware({
   })
 })
 
+export const requireAdminMiddleware = createMiddleware({
+  type: 'function',
+})
+  .middleware([requireAuthMiddleware])
+  .server(async ({ next, context }) => {
+    const { user } = context
+    if (!user.roles.includes('ADMIN')) throw new Error('Forbidden')
+    return next()
+  })
+
 export const guestOnlyMiddleware = createMiddleware({
   type: 'function',
 }).server(async ({ next }) => {

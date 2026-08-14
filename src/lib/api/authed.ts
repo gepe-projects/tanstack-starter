@@ -44,7 +44,7 @@ async function refreshSession(): Promise<boolean> {
 }
 
 interface AuthedRequestOptions {
-  method?: 'GET' | 'POST'
+  method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
   body?: unknown
 }
 

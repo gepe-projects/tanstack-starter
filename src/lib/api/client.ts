@@ -5,7 +5,7 @@ import type { ApiResult, SpringValidationError } from './errors'
 const SERVER_URL = env.SERVER_URL ?? 'http://localhost:8080'
 
 interface ApiFetchOptions {
-  method?: 'GET' | 'POST'
+  method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
   body?: unknown
   token?: string
 }
