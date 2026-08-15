@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { assignUserRoles, changeUserStatus, getUser } from '#/features/admin/api/admin.functions'
 import { isRoleType, maxRank } from '#/features/admin/roles'
 import type { AdminUserDetail, RoleType, UserStatus } from '#/features/admin/types'
-import { Button } from '#/components/animate-ui/components/buttons/button'
+import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { toast } from '#/components/ui/toast'
 

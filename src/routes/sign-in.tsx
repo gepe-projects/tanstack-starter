@@ -1,5 +1,6 @@
 import { toast } from '#/components/ui/toast'
 import { getSessionInfo } from '#/features/auth/api/auth.functions'
+import { AuthLayout } from '#/features/auth/components/AuthLayout'
 import SignInForm from '#/features/auth/components/SignInForm'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useEffect } from 'react'
@@ -36,8 +37,8 @@ function RouteComponent() {
     navigate({ to: '/sign-in', search: { error: undefined }, replace: true })
   }, [error, navigate])
   return (
-    <div className="flex h-screen items-center justify-center">
+    <AuthLayout>
       <SignInForm />
-    </div>
+    </AuthLayout>
   )
 }

@@ -1,22 +1,27 @@
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
 
 import { register } from '#/features/auth/api/auth.functions'
 import { RegisterSchema } from '#/features/auth/schemas'
+import { GoogleIcon } from '#/features/auth/components/GoogleIcon'
 
-import { Button } from '#/components/animate-ui/components/buttons/button'
+import { Button } from '#/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '#/components/ui/card'
 import { FieldGroup } from '#/components/ui/field'
+import { SeparatorWithText } from '#/components/ui/separator-with-text'
 import { toast } from '#/components/ui/toast'
 import { PasswordField } from '#/components/form/fields/password-field'
 import { TextField } from '#/components/form/fields/text-field'
 import { useAppForm } from '#/components/form/form'
 import { applyServerErrors } from '#/components/form/server-errors'
+import { getGoogleAuthUrl } from '../api/oauth.functions'
 
 const registerDefaults: {
   displayName?: string
@@ -30,6 +35,7 @@ const registerDefaults: {
 
 const RegisterForm = () => {
   const navigate = useNavigate()
+  const [googleLoading, setGoogleLoading] = useState(false)
   const form = useAppForm({
     defaultValues: registerDefaults,
     validators: {
@@ -58,6 +64,28 @@ const RegisterForm = () => {
     },
   })
 
+  // Google OAuth — backend otomatis membuat akun saat user pertama kali login
+  async function handleGoogleSignUp() {
+    setGoogleLoading(true)
+    try {
+      const result = await getGoogleAuthUrl()
+      if (!result.ok) {
+        toast.add({
+          title: 'Google sign-up failed',
+          description: result.error.message,
+          type: 'error',
+          timeout: 6000,
+        })
+        return
+      }
+      // Full top-level navigation ke Google. Setelah user selesai di Google,
+      // browser akan dibawa balik ke /auth/google/callback?code=...
+      window.location.assign(result.data.redirectUrl)
+    } finally {
+      setGoogleLoading(false)
+    }
+  }
+
   return (
     <Card className="w-full sm:max-w-md">
       <CardHeader>
@@ -66,7 +94,7 @@ const RegisterForm = () => {
           Enter your details below to get started
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-5">
         <form
           id="sign-up-form"
           onSubmit={(e) => {
@@ -108,7 +136,29 @@ const RegisterForm = () => {
             Create account
           </Button>
         </form>
+        <SeparatorWithText text="or continue with" />
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={handleGoogleSignUp}
+          disabled={googleLoading}
+        >
+          <GoogleIcon className="mr-2 h-4 w-4" />
+          {googleLoading ? 'Redirecting to Google…' : 'Sign up with Google'}
+        </Button>
       </CardContent>
+      <CardFooter className="justify-center">
+        <p className="text-sm text-muted-foreground">
+          Already have an account?{' '}
+          <Link
+            to="/sign-in"
+            className="font-medium text-primary transition-colors hover:text-primary/80"
+          >
+            Sign in
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   )
 }

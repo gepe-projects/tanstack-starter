@@ -1,9 +1,8 @@
 import { ArrowRightIcon } from 'lucide-react'
 
 import { Badge } from '#/components/ui/badge'
-import { buttonVariants } from '#/components/ui/button'
+import { Button } from '#/components/ui/button'
 import { ScrollReveal } from '#/components/motion/scroll-reveal'
-import { cn } from '#/lib/utils'
 
 import { hero } from './content'
 
@@ -47,22 +46,20 @@ export function Hero() {
 
         <ScrollReveal delay={0.15}>
           <div className="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
-            <a
-              href={hero.primaryCta.href}
-              className={cn(buttonVariants({ size: 'lg' }), 'w-full sm:w-auto')}
+            <Button asChild size="lg" className="w-full sm:w-auto">
+              <a href={hero.primaryCta.href}>
+                {hero.primaryCta.label}
+                <ArrowRightIcon data-icon="inline-end" />
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
             >
-              {hero.primaryCta.label}
-              <ArrowRightIcon data-icon="inline-end" />
-            </a>
-            <a
-              href={hero.secondaryCta.href}
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'lg' }),
-                'w-full sm:w-auto',
-              )}
-            >
-              {hero.secondaryCta.label}
-            </a>
+              <a href={hero.secondaryCta.href}>{hero.secondaryCta.label}</a>
+            </Button>
           </div>
         </ScrollReveal>
 

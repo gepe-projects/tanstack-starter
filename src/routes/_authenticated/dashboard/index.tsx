@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 
 import { logout } from '#/features/auth/api/auth.functions'
 import { hasAdminTier } from '#/features/admin/roles'
-import { Button } from '#/components/animate-ui/components/buttons/button'
+import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 
 export const Route = createFileRoute('/_authenticated/dashboard/')({

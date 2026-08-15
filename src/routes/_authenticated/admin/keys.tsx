@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { listSigningKeys, rotateSigningKey } from '#/features/admin/api/admin.functions'
 import type { RotatedKeyResponse, SigningKeyInfo } from '#/features/admin/types'
-import { Button } from '#/components/animate-ui/components/buttons/button'
+import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { toast } from '#/components/ui/toast'
 

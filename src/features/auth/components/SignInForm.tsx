@@ -1,13 +1,15 @@
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 
 import { login } from '#/features/auth/api/auth.functions'
 import { SignInSchema } from '#/features/auth/schemas'
+import { GoogleIcon } from '#/features/auth/components/GoogleIcon'
 
-import { Button } from '#/components/animate-ui/components/buttons/button'
+import { Button } from '#/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '#/components/ui/card'
@@ -20,17 +22,6 @@ import { useAppForm } from '#/components/form/form'
 import { applyServerErrors } from '#/components/form/server-errors'
 import { useState } from 'react'
 import { getGoogleAuthUrl } from '../api/oauth.functions'
-
-function GoogleIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
-      <path
-        fill="#4285F4"
-        d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-      />
-    </svg>
-  )
-}
 
 const SignInForm = () => {
   const navigate = useNavigate()
@@ -137,6 +128,17 @@ const SignInForm = () => {
           {googleLoading ? 'Redirecting to Google…' : 'Login with Google'}
         </Button>
       </CardContent>
+      <CardFooter className="justify-center">
+        <p className="text-sm text-muted-foreground">
+          Don&apos;t have an account?{' '}
+          <Link
+            to="/sign-up"
+            className="font-medium text-primary transition-colors hover:text-primary/80"
+          >
+            Register
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   )
 }

@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '#/components/ui/sheet'
-import { buttonVariants } from '#/components/ui/button'
+import { Button } from '#/components/ui/button'
 import { cn } from '#/lib/utils'
 
 import { hero, navLinks, site } from './content'
@@ -66,27 +66,17 @@ export function Navbar() {
             ))}
           </nav>
 
-          <a
-            href={hero.primaryCta.href}
-            className={cn(
-              buttonVariants({ size: 'sm' }),
-              'hidden md:inline-flex',
-            )}
-          >
-            {hero.primaryCta.label}
-          </a>
+          <Button asChild size="sm" className="hidden md:inline-flex">
+            <a href={hero.primaryCta.href}>{hero.primaryCta.label}</a>
+          </Button>
 
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger
-              aria-label="Open menu"
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'icon' }),
-                'md:hidden',
-              )}
-            >
-              <MenuIcon />
-              <span className="sr-only">Open menu</span>
-            </SheetTrigger>
+            <Button asChild variant="outline" size="icon" className="md:hidden">
+              <SheetTrigger aria-label="Open menu">
+                <MenuIcon />
+                <span className="sr-only">Open menu</span>
+              </SheetTrigger>
+            </Button>
             <SheetContent side="right" className="md:hidden">
               <SheetHeader>
                 <SheetTitle>{site.name}</SheetTitle>
@@ -107,13 +97,11 @@ export function Navbar() {
                 ))}
               </nav>
               <div className="px-6 pt-4">
-                <a
-                  href={hero.primaryCta.href}
-                  onClick={() => setOpen(false)}
-                  className={cn(buttonVariants(), 'w-full')}
-                >
-                  {hero.primaryCta.label}
-                </a>
+                <Button asChild className="w-full">
+                  <a href={hero.primaryCta.href} onClick={() => setOpen(false)}>
+                    {hero.primaryCta.label}
+                  </a>
+                </Button>
               </div>
             </SheetContent>
           </Sheet>

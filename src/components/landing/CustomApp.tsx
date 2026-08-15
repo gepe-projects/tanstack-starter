@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from 'lucide-react'
 
 import { Badge } from '#/components/ui/badge'
-import { buttonVariants } from '#/components/ui/button'
+import { Button } from '#/components/ui/button'
 import { ScrollReveal } from '#/components/motion/scroll-reveal'
 
 import { customApp, services } from './content'
@@ -39,13 +39,12 @@ export function CustomApp() {
                 </div>
 
                 <div className="mt-4">
-                  <a
-                    href={customApp.cta.href}
-                    className={buttonVariants({ size: 'lg' })}
-                  >
-                    {customApp.cta.label}
-                    <ArrowRightIcon data-icon="inline-end" />
-                  </a>
+                  <Button asChild size="lg">
+                    <a href={customApp.cta.href}>
+                      {customApp.cta.label}
+                      <ArrowRightIcon data-icon="inline-end" />
+                    </a>
+                  </Button>
                 </div>
               </div>
 
