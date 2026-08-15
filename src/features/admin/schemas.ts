@@ -25,12 +25,12 @@ export type AssignRolesInput = z.infer<typeof AssignRolesSchema>
 export const UserPageParamsSchema = z.object({
   cursor: z.string().optional(),
   status: UserStatusSchema.optional(),
-  limit: z.number().int().min(1).max(50).default(20),
+  limit: z.number().int().min(1).max(100).default(20),
 })
 export type UserPageParamsInput = z.infer<typeof UserPageParamsSchema>
 
 export const AuditPageParamsSchema = z.object({
   cursor: z.string().optional(),
-  limit: z.number().int().min(1).max(50).default(20),
+  limit: z.number().int().min(1).max(100).default(20),
 })
 export type AuditPageParamsInput = z.infer<typeof AuditPageParamsSchema>
