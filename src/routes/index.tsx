@@ -1,18 +1,21 @@
-import { Button } from '#/components/animate-ui/components/buttons/button'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+
+import { CustomApp } from '#/components/landing/CustomApp'
+import { Footer } from '#/components/landing/Footer'
+import { Hero } from '#/components/landing/Hero'
+import { Navbar } from '#/components/landing/Navbar'
 
 export const Route = createFileRoute('/')({ component: Home })
 
 function Home() {
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold">Welcome to TanStack Start</h1>
-      <p className="mt-4 text-lg">
-        Edit <code>src/routes/index.tsx</code> to get started.
-      </p>
-      <Button asChild>
-        <Link to="/dashboard">Go to dashboard</Link>
-      </Button>
+    <div className="min-h-screen">
+      <Navbar />
+      <main>
+        <Hero />
+        <CustomApp />
+      </main>
+      <Footer />
     </div>
   )
 }

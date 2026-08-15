@@ -18,7 +18,12 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        name: 'description',
+        content:
+          'A production-ready full-stack starter — TanStack Start frontend with a Spring Boot Modulith backend: email & Google auth, role-based admin panel, audit logging, and JWT key management.',
+      },
+      {
+        title: 'Production-Ready Full-Stack Starter',
       },
     ],
     links: [
