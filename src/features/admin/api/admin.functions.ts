@@ -28,28 +28,38 @@ export const listUsers = createServerFn({ method: 'POST' })
     const query = new URLSearchParams({ limit: String(data.limit) })
     if (data.cursor) query.set('cursor', data.cursor)
     if (data.status) query.set('status', data.status)
-    return authedApi.request<CursorPage<AdminUser>>(`/api/v1/admin/users?${query}`, {
-      method: 'GET',
-    })
+    if (data.search) query.set('search', data.search)
+    return authedApi.request<CursorPage<AdminUser>>(
+      `/api/v1/admin/users?${query}`,
+      {
+        method: 'GET',
+      },
+    )
   })
 
 export const getUser = createServerFn({ method: 'POST' })
   .middleware([requireAdminMiddleware])
   .validator(UserIdParamsSchema)
   .handler(async ({ data }): Promise<ApiResult<AdminUserDetail>> => {
-    return authedApi.request<AdminUserDetail>(`/api/v1/admin/users/${data.userId}`, {
-      method: 'GET',
-    })
+    return authedApi.request<AdminUserDetail>(
+      `/api/v1/admin/users/${data.userId}`,
+      {
+        method: 'GET',
+      },
+    )
   })
 
 export const changeUserStatus = createServerFn({ method: 'POST' })
   .middleware([requireAdminMiddleware])
   .validator(ChangeStatusSchema)
   .handler(async ({ data }): Promise<ApiResult<null>> => {
-    return authedApi.request<null>(`/api/v1/admin/users/${data.userId}/status`, {
-      method: 'PATCH',
-      body: { status: data.status },
-    })
+    return authedApi.request<null>(
+      `/api/v1/admin/users/${data.userId}/status`,
+      {
+        method: 'PATCH',
+        body: { status: data.status },
+      },
+    )
   })
 
 export const assignUserRoles = createServerFn({ method: 'POST' })
@@ -67,7 +77,9 @@ export const assignUserRoles = createServerFn({ method: 'POST' })
 export const listSigningKeys = createServerFn({ method: 'GET' })
   .middleware([requireAdminMiddleware])
   .handler(async (): Promise<ApiResult<SigningKeyInfo[]>> => {
-    return authedApi.request<SigningKeyInfo[]>('/api/v1/admin/keys', { method: 'GET' })
+    return authedApi.request<SigningKeyInfo[]>('/api/v1/admin/keys', {
+      method: 'GET',
+    })
   })
 
 export const rotateSigningKey = createServerFn({ method: 'GET' })
@@ -86,7 +98,13 @@ export const listAuditLogs = createServerFn({ method: 'POST' })
   .handler(async ({ data }): Promise<ApiResult<CursorPage<AuditLog>>> => {
     const query = new URLSearchParams({ limit: String(data.limit) })
     if (data.cursor) query.set('cursor', data.cursor)
-    return authedApi.request<CursorPage<AuditLog>>(`/api/v1/admin/audit-logs?${query}`, {
-      method: 'GET',
-    })
+    if (data.search) query.set('search', data.search)
+    if (data.from) query.set('from', data.from)
+    if (data.to) query.set('to', data.to)
+    return authedApi.request<CursorPage<AuditLog>>(
+      `/api/v1/admin/audit-logs?${query}`,
+      {
+        method: 'GET',
+      },
+    )
   })

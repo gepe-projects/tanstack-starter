@@ -3,7 +3,12 @@ import { z } from 'zod'
 export const UserStatusSchema = z.enum(['ACTIVE', 'SUSPENDED', 'DISABLED'])
 export type UserStatusInput = z.infer<typeof UserStatusSchema>
 
-export const RoleTypeSchema = z.enum(['USER', 'ADMIN', 'OPERATION', 'SUPER_ADMIN'])
+export const RoleTypeSchema = z.enum([
+  'USER',
+  'ADMIN',
+  'OPERATION',
+  'SUPER_ADMIN',
+])
 
 export const UserIdParamsSchema = z.object({
   userId: z.string().min(1),
@@ -24,6 +29,7 @@ export type AssignRolesInput = z.infer<typeof AssignRolesSchema>
 
 export const UserPageParamsSchema = z.object({
   cursor: z.string().optional(),
+  search: z.string().max(200).optional(),
   status: UserStatusSchema.optional(),
   limit: z.number().int().min(1).max(100).default(20),
 })
@@ -31,6 +37,10 @@ export type UserPageParamsInput = z.infer<typeof UserPageParamsSchema>
 
 export const AuditPageParamsSchema = z.object({
   cursor: z.string().optional(),
+  search: z.string().max(200).optional(),
+  /** ISO date (YYYY-MM-DD) — forwarded to the backend; ignored until supported. */
+  from: z.string().optional(),
+  to: z.string().optional(),
   limit: z.number().int().min(1).max(100).default(20),
 })
 export type AuditPageParamsInput = z.infer<typeof AuditPageParamsSchema>
