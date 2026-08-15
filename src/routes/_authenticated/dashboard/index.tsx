@@ -20,7 +20,7 @@ function Dashboard() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex min-h-full flex-1 items-center justify-center">
       <Card className="w-full sm:max-w-md">
         <CardHeader>
           <CardTitle>Dashboard</CardTitle>

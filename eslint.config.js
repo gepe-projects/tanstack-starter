@@ -16,6 +16,15 @@ export default [
     },
   },
   {
+    // Vendored/copied component libraries (animate-ui) — kode dari registry,
+    // jangan diubah manual; longgar-kan aturan strict yang tidak relevan.
+    files: ['src/components/animate-ui/**'],
+    rules: {
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+    },
+  },
+  {
     ignores: ['eslint.config.js', 'prettier.config.js', '.output/**'],
   },
 ]

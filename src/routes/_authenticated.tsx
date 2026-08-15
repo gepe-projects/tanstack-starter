@@ -1,6 +1,11 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  redirect,
+  useNavigate,
+} from '@tanstack/react-router'
 
-import { getSessionInfo } from '#/features/auth/api/auth.functions'
+import { getSessionInfo, logout } from '#/features/auth/api/auth.functions'
+import { AppLayout } from '#/components/layouts/app-layout'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: async () => {
@@ -10,4 +15,19 @@ export const Route = createFileRoute('/_authenticated')({
     }
     return { session } // auto masuk context, bisa diakses di semua route anaknya
   },
+  component: AuthenticatedLayout,
 })
+
+function AuthenticatedLayout() {
+  const { session } = Route.useRouteContext()
+  const navigate = useNavigate()
+
+  const handleSignOut = async () => {
+    await logout()
+    navigate({ to: '/sign-in' })
+  }
+
+  return (
+    <AppLayout user={session.user} onSignOut={handleSignOut} />
+  )
+}
