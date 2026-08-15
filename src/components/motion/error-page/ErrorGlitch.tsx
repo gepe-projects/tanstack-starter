@@ -72,17 +72,17 @@ export function ErrorGlitch({
 }: ErrorProps) {
   return (
     <ErrorStage className={className}>
-      <div className="group relative select-none font-mono font-bold leading-none tracking-tighter text-foreground [font-size:clamp(5rem,18vw,11rem)]">
+      <div className="group relative select-none font-mono font-bold leading-none tracking-tighter text-foreground text-[clamp(5rem,18vw,11rem)]">
         {/* Chromatic ghost layers, nudged apart on hover. */}
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 text-[#ff0040] opacity-0 mix-blend-screen transition-[transform,opacity] duration-150 ease-out group-hover:translate-x-[3px] group-hover:opacity-70 motion-reduce:hidden"
+          className="pointer-events-none absolute inset-0 text-[#ff0040] opacity-0 mix-blend-screen transition-[transform,opacity] duration-150 ease-out group-hover:translate-x-0.75 group-hover:opacity-70 motion-reduce:hidden"
         >
           <Scramble text={code} />
         </span>
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 text-[#00e5ff] opacity-0 mix-blend-screen transition-[transform,opacity] duration-150 ease-out group-hover:-translate-x-[3px] group-hover:opacity-70 motion-reduce:hidden"
+          className="pointer-events-none absolute inset-0 text-[#00e5ff] opacity-0 mix-blend-screen transition-[transform,opacity] duration-150 ease-out group-hover:-translate-x-0.75 group-hover:opacity-70 motion-reduce:hidden"
         >
           <Scramble text={code} />
         </span>

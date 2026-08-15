@@ -14,7 +14,7 @@ export function Hero() {
     >
       {/* Decorative background */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,color-mix(in_oklch,var(--border)_60%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_oklch,var(--border)_60%,transparent)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_70%_55%_at_50%_0%,black,transparent)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,color-mix(in_oklch,var(--border)_60%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_oklch,var(--border)_60%,transparent)_1px,transparent_1px)] bg-size-[56px_56px] mask-[radial-gradient(ellipse_70%_55%_at_50%_0%,black,transparent)]" />
         <div className="absolute -top-40 left-1/2 h-120 w-200 -translate-x-1/2 rounded-full bg-primary/20 blur-3xl" />
         <div className="absolute top-24 left-[12%] size-60 rounded-full bg-accent/60 blur-3xl" />
         <div className="absolute top-40 right-[10%] size-60 rounded-full bg-primary/10 blur-3xl" />
@@ -31,7 +31,7 @@ export function Hero() {
         <ScrollReveal delay={0.05}>
           <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-6xl">
             {hero.title.before}
-            <span className="bg-gradient-to-r from-primary via-fuchsia-500 to-primary bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary via-fuchsia-500 to-primary bg-clip-text text-transparent">
               {hero.title.highlight}
             </span>
             {hero.title.after}
